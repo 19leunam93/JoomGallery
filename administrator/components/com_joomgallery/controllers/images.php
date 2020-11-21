@@ -11,6 +11,8 @@
 
 defined('_JEXEC') or die('Direct Access to this location is not allowed.');
 
+use Joomla\CMS\Factory;
+
 /**
  * JoomGallery Images Controller
  *
@@ -331,7 +333,9 @@ class JoomGalleryControllerImages extends JoomGalleryController
   {
     $model = $this->getModel('image');
 
-    $data = JRequest::get('post', 2);
+    //$data = JRequest::get('post', 2);
+    $input = Factory::getApplication()->input;
+    $data = $input->post->getArray();
 
     // Editing more than one image?
     if(isset($data['cids']))

@@ -82,6 +82,14 @@ echo $this->loadTemplate('header'); ?>
                     <?php echo $this->form->getInput('catid'); ?>
                   </div>
                 </div>
+                <div class="control-group">
+                  <div class="control-label">
+                    <?php echo $this->form->getLabel('tags'); ?>
+                  </div>
+                  <div class="controls">
+                    <?php echo $this->form->getInput('tags'); ?>
+                  </div>
+              </div>
               </div>
               <div class="span6">
                 <div class="control-group">

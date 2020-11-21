@@ -81,6 +81,7 @@ class TableJoomgalleryImages extends JTable
   public function __construct($db)
   {
     parent::__construct(_JOOM_TABLE_IMAGES, 'id', $db);
+    JTableObserverTags::createObserver($this, array('typeAlias' => 'com_joomgallery.image'));
   }
 
   /**

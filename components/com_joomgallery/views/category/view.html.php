@@ -11,6 +11,8 @@
 
 defined('_JEXEC') or die('Direct Access to this location is not allowed.');
 
+use Joomla\CMS\Helper\TagsHelper;
+
 /**
  * HTML View class for the category view
  *
@@ -267,6 +269,9 @@ class JoomGalleryViewCategory extends JoomGalleryView
     {
       $this->_doc->setMetadata('keywords', $cat->metakey);
     }
+
+    // get all tags of images in this category
+    $tags  = JoomHelper::getTags($images);
 
     /*if($this->_mainframe->getCfg('MetaAuthor') == '1' && $cat->author)
     {
@@ -796,6 +801,10 @@ class JoomGalleryViewCategory extends JoomGalleryView
         }
       }
 
+      // get image Tags
+      $th = new TagsHelper();
+      $images[$key]->tags = $th->getItemTags("com_joomgallery.image", $images[$key]->id);
+
       // Show editor links for that image
       $images[$key]->show_edit_icon   = false;
       $images[$key]->show_delete_icon = false;
@@ -906,6 +915,7 @@ class JoomGalleryViewCategory extends JoomGalleryView
 
     $this->assignRef('params',            $params);
     $this->assignRef('category',          $cat);
+    $this->assignRef('tags',              $tags);
     $this->assignRef('images',            $images);
     $this->assignRef('categories',        $categories);
     $this->assignRef('totalimages',       $totalimages);

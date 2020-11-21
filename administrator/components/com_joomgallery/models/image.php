@@ -71,40 +71,47 @@ class JoomGalleryModelImage extends JoomGalleryModel
    */
   public function getData()
   {
-    $row = $this->getTable('joomgalleryimages');
-    $row->load($this->_id);
-
-    if(!$this->_id)
+    if(empty($this->_data))
     {
-      $row->imgtitle      = $this->_mainframe->getUserStateFromRequest('joom.image.imgtitle',       'imgtitle');
-      $row->imgtext       = $this->_mainframe->getUserStateFromRequest('joom.image.imgtext',        'imgtext');
-      $row->imgauthor     = $this->_mainframe->getUserStateFromRequest('joom.image.imgauthor',      'imgauthor');
-      $row->owner         = $this->_mainframe->getUserStateFromRequest('joom.image.owner',          'owner');
-      $row->metadesc      = $this->_mainframe->getUserStateFromRequest('joom.image.metadesc',       'metadesc');
-      $row->metakey       = $this->_mainframe->getUserStateFromRequest('joom.image.metakey',        'metakey');
-      $row->published     = $this->_mainframe->getUserStateFromRequest('joom.image.published',      'published', 1, 'int');
-      $row->imgfilename   = $this->_mainframe->getUserStateFromRequest('joom.image.imgfilename',    'imgfilename');
-      $row->imgthumbname  = $this->_mainframe->getUserStateFromRequest('joom.image.imgthumbname',   'imgthumbname');
-      $row->catid         = $this->_mainframe->getUserStateFromRequest('joom.image.catid',          'catid', 0, 'int');
-      $row->access        = $this->_mainframe->getUserStateFromRequest('joom.image.access',         'access', 1, 'int');
-      // Source category for original and detail picture
-      $row->detail_catid  = $this->_mainframe->getUserStateFromRequest('joom.image.detail_catid',   'detail_catid', 0, 'int');
-      if(!$row->detail_catid)
+      $row = $this->getTable('joomgalleryimages');
+      $row->load($this->_id);
+
+      if(!$this->_id)
       {
-        $row->imgfilename = '';
+        $row->imgtitle      = $this->_mainframe->getUserStateFromRequest('joom.image.imgtitle',       'imgtitle');
+        $row->imgtext       = $this->_mainframe->getUserStateFromRequest('joom.image.imgtext',        'imgtext');
+        $row->imgauthor     = $this->_mainframe->getUserStateFromRequest('joom.image.imgauthor',      'imgauthor');
+        $row->owner         = $this->_mainframe->getUserStateFromRequest('joom.image.owner',          'owner');
+        $row->metadesc      = $this->_mainframe->getUserStateFromRequest('joom.image.metadesc',       'metadesc');
+        $row->metakey       = $this->_mainframe->getUserStateFromRequest('joom.image.metakey',        'metakey');
+        $row->published     = $this->_mainframe->getUserStateFromRequest('joom.image.published',      'published', 1, 'int');
+        $row->imgfilename   = $this->_mainframe->getUserStateFromRequest('joom.image.imgfilename',    'imgfilename');
+        $row->imgthumbname  = $this->_mainframe->getUserStateFromRequest('joom.image.imgthumbname',   'imgthumbname');
+        $row->catid         = $this->_mainframe->getUserStateFromRequest('joom.image.catid',          'catid', 0, 'int');
+        $row->access        = $this->_mainframe->getUserStateFromRequest('joom.image.access',         'access', 1, 'int');
+        // Source category for original and detail picture
+        $row->detail_catid  = $this->_mainframe->getUserStateFromRequest('joom.image.detail_catid',   'detail_catid', 0, 'int');
+        if(!$row->detail_catid)
+        {
+          $row->imgfilename = '';
+        }
+        // Source category for thumbnail
+        $row->thumb_catid   = $this->_mainframe->getUserStateFromRequest('joom.image.thumb_catid',    'thumb_catid', 0, 'int');
+        if(!$row->thumb_catid)
+        {
+          $row->imgthumbname = '';
+        }
+        $row->copy_original = $this->_mainframe->getUserStateFromRequest('joom.image.copy_original',  'copy_original', 0, 'int');
       }
-      // Source category for thumbnail
-      $row->thumb_catid   = $this->_mainframe->getUserStateFromRequest('joom.image.thumb_catid',    'thumb_catid', 0, 'int');
-      if(!$row->thumb_catid)
-      {
-        $row->imgthumbname = '';
-      }
-      $row->copy_original = $this->_mainframe->getUserStateFromRequest('joom.image.copy_original',  'copy_original', 0, 'int');
+
+      $this->_data = $row;
     }
 
-    $this->_mainframe->triggerEvent('onContentPrepareData', array(_JOOM_OPTION.'.image', $row));
+    $this->_data->tags = new JHelperTags;
+    $this->_data->tags->getTagIds($this->_id, 'com_joomgallery.image');
+    $this->_data->tags->getItemTags('com_joomgallery.image', $this->_id);
 
-    $this->_data = $row;
+    $this->_mainframe->triggerEvent('onContentPrepareData', array(_JOOM_OPTION.'.image', $row));
 
     return $this->_data;
   }
@@ -280,6 +287,12 @@ class JoomGalleryModelImage extends JoomGalleryModel
     else
     {
       $isNew = true;
+    }
+
+    // Map tags to the item
+    if ((!empty($data['tags']) && $data['tags'][0] != ''))
+    {
+      $row->newTags = $data['tags'];
     }
 
     // Bind the form fields to the image table

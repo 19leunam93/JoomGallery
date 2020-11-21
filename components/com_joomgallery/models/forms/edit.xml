@@ -50,6 +50,15 @@
       action="joom.upload"
     />
     <field
+      name="tags"
+      type="tag"
+      mode="ajax"
+      custom="allow"
+      label="JTAG"
+      description="JTAG_DESC"
+      multiple="true"
+    />
+    <field
       name="imgtext"
       type="editor"
       class="inputbox"

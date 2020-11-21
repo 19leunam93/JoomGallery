@@ -95,6 +95,7 @@ class TableJoomgalleryCategories extends JTableNested
   public function __construct($db)
   {
     parent::__construct(_JOOM_TABLE_CATEGORIES, 'cid', $db);
+    JTableObserverTags::createObserver($this, array('typeAlias' => 'com_joomgallery.category'));
   }
 
   /**

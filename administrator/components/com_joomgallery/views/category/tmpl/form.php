@@ -98,6 +98,14 @@
             </div>
             <div class="control-group">
               <div class="control-label">
+                <?php echo $this->form->getLabel('tags'); ?>
+              </div>
+              <div class="controls">
+                <?php echo $this->form->getInput('tags'); ?>
+              </div>
+            </div>
+            <div class="control-group">
+              <div class="control-label">
                 <?php echo $this->form->getLabel('published'); ?>
               </div>
               <div class="controls">

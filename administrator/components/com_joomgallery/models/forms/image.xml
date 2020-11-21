@@ -19,6 +19,15 @@
       readonly="true"
     />
     <field
+      name="tags"
+      type="tag"
+      mode="ajax"
+      custom="allow"
+      label="JTAG"
+      description="JTAG_DESC"
+      multiple="true"
+    />
+    <field
       name="asset_id"
       type="hidden"
       filter="unset"

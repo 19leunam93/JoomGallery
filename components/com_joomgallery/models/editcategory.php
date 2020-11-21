@@ -315,6 +315,12 @@ class JoomGalleryModelEditcategory extends JoomGalleryModel
       }
     }
 
+    // Map tags to the item
+    if ((!empty($data['tags']) && $data['tags'][0] != ''))
+    {
+      $row->newTags = $data['tags'];
+    }
+
     // Bind the form fields to the category table
     if(!$row->bind($data))
     {
@@ -679,11 +685,15 @@ class JoomGalleryModelEditcategory extends JoomGalleryModel
         $row->access    = $this->_mainframe->getCfg('access');
       }
 
-      JPluginHelper::importPlugin('joomgallery');
-      $this->_mainframe->triggerEvent('onContentPrepareData', array(_JOOM_OPTION.'.category', $row));
-
       $this->_category = $row;
     }
+
+    $this->_category->tags = new JHelperTags;
+    $this->_category->tags->getTagIds($this->_id, 'com_joomgallery.category');
+    $this->_category->tags->getItemTags('com_joomgallery.category', $this->_id);
+
+    JPluginHelper::importPlugin('joomgallery');
+    $this->_mainframe->triggerEvent('onContentPrepareData', array(_JOOM_OPTION.'.category', $row));
 
     return true;
   }

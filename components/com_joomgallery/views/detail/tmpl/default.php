@@ -299,6 +299,25 @@ echo $this->loadTemplate('header'); ?>
         </div>
       </div>
 <?php   endif;
+      if(count($this->image->tags) > 0):
+      $tags =  '';
+      foreach ($this->image->tags as $key => $tag)
+       {
+         if ($key != 0)
+         {
+          $tags .= ', ';
+         }
+         $tags .= $tag->title;         
+       } ?>
+      <div class="jg_row<?php $this->i++; echo ($this->i % 2) + 1; ?>">
+        <div class="jg_photo_left">
+          <?php echo 'Tags'; ?>
+        </div>
+        <div class="jg_photo_right" id="jg_photo_tags">
+          <?php echo $tags; ?>
+        </div>
+      </div>
+<?php     endif;
         if($this->_config->get('jg_showdetailhits')): ?>
       <div class="jg_row<?php $this->i++; echo ($this->i % 2) + 1; ?>">
         <div class="jg_photo_left">

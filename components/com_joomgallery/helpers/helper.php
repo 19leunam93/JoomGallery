@@ -11,6 +11,8 @@
 
 defined('_JEXEC') or die('Direct Access to this location is not allowed.');
 
+use Joomla\CMS\Helper\TagsHelper;
+
 /**
  * JoomGallery Global Helper
  *
@@ -1023,5 +1025,42 @@ class JoomHelper
     }
 
     return $fulltext;
+  }
+
+  /**
+   * Returns tags of all images
+   *
+   * @param   array   $images      array with images
+   * @return  array   array with all tags
+   * @since   3.5
+   */
+  public static function getTags($images)
+  {
+    $tags = array();
+
+    foreach ($images as $key => $image)
+    {
+      $th = new TagsHelper();
+      $img_tags = $th->getItemTags("com_joomgallery.image", $image->id);
+
+      foreach ($img_tags as $key => $img_tag)
+      {
+        $tag_exists = false;
+        foreach ($tags as $key => $tag)
+        {
+          if ($img_tag->id == $tag->id)
+          {
+            $tag_exists = true;
+          }
+        }
+
+        if (!$tag_exists)
+        {
+          array_push($tags, $img_tag);
+        }
+      }
+    }
+
+    return $tags;
   }
 }

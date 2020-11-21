@@ -238,11 +238,15 @@ class JoomGalleryModelEdit extends JoomGalleryModel
         $row->thumb_url = $this->_ambit->getImg('thumb_url', $row);
       }
 
-      JPluginHelper::importPlugin('joomgallery');
-      $this->_mainframe->triggerEvent('onContentPrepareData', array(_JOOM_OPTION.'.image', $row));
-
       $this->_image = $row;
     }
+
+    $this->_image->tags = new JHelperTags;
+    $this->_image->tags->getTagIds($this->_id, 'com_joomgallery.image');
+    $this->_image->tags->getItemTags('com_joomgallery.image', $this->_id);
+
+    JPluginHelper::importPlugin('joomgallery');
+    $this->_mainframe->triggerEvent('onContentPrepareData', array(_JOOM_OPTION.'.image', $row));
 
     return true;
   }
@@ -323,6 +327,12 @@ class JoomGalleryModelEdit extends JoomGalleryModel
 
     // Read old category ID
     $catid_old  = $row->catid;
+
+    // Map tags to the item
+    if ((!empty($data['tags']) && $data['tags'][0] != ''))
+    {
+      $row->newTags = $data['tags'];
+    }
 
     // Bind the form fields to the images table
     if(!$row->bind($data))

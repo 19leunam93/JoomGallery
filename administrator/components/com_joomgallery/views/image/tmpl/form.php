@@ -43,8 +43,8 @@ jQuery(document).ready(function() {
   }
   history.replaceState(null, null, modifiedURL);
 });
-</script>
-<form action="<?php echo JRoute::_('index.php?option='._JOOM_OPTION.'&controller=images'); ?>" method="post" name="adminForm" id="item-form" enctype="multipart/form-data" class="form-validate">
+</script> 
+<form action="<?php echo JRoute::_('index.php?option='._JOOM_OPTION.'&controller=images'); ?>" method="post" name="adminForm" id="item-form"class="form-validate">
   <div class="row-fluid">
     <!-- Begin Content -->
     <div class="span12 form-horizontal">
@@ -89,6 +89,14 @@ jQuery(document).ready(function() {
                 </div>
                 <div class="controls">
                   <?php echo $this->form->getInput('catid'); ?>
+                </div>
+              </div>
+              <div class="control-group">
+                <div class="control-label">
+                  <?php echo $this->form->getLabel('tags'); ?>
+                </div>
+                <div class="controls">
+                  <?php echo $this->form->getInput('tags'); ?>
                 </div>
               </div>
               <div class="control-group">

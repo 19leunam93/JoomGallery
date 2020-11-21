@@ -2,7 +2,22 @@
       if($this->_config->get('jg_anchors')): ?>
   <a name="category"></a>
 <?php endif;
-      if($this->params->get('show_count_img_top')): ?>
+  $tags =  '';
+  if(count($this->tags) > 0)
+  {
+    foreach ($this->tags as $key => $tag)
+     {
+       if ($key != 0)
+       {
+        $tags .= ', ';
+       }
+       $tags .= $tag->title;
+     }
+  } ?>
+  <div class="jg_cattags">
+    <?php echo 'Tags: '.$tags; ?>
+  </div>
+<?php      if($this->params->get('show_count_img_top')): ?>
   <div class="jg_catcountimg">
 <?php   if($this->totalimages == 1): ?>
     <?php echo JText::_('COM_JOOMGALLERY_CATEGORY_THERE_IS_ONE_IMAGE_IN_CATEGORY'); ?>
@@ -52,6 +67,21 @@
             <?php echo JText::sprintf('COM_JOOMGALLERY_COMMON_AUTHOR_VAR', $row->authorowner);?>
           </li>
 <?php     endif;
+          if(count($row->tags) > 0):
+          $tags =  '';
+          foreach ($row->tags as $key => $tag)
+           {
+             if ($key != 0)
+             {
+              $tags .= ', ';
+             }
+             $tags .= $tag->title;
+           } ?>
+          <li>
+            <?php echo 'Tags: '.$tags; ?>
+          </li>
+<?php     endif;
+
           if($this->_config->get('jg_showhits')): ?>
           <li>
             <?php echo JText::sprintf('COM_JOOMGALLERY_COMMON_HITS_VAR', $row->hits); ?>

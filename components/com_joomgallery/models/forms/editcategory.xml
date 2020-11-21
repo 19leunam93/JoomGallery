@@ -39,6 +39,15 @@
       description="COM_JOOMGALLERY_EDITCATEGORY_ALIAS_TIP"
       size="50"
     />
+    <field
+      name="tags"
+      type="tag"
+      mode="ajax"
+      custom="allow"
+      label="JTAG"
+      description="JTAG_DESC"
+      multiple="true"
+    />
     <field 
       class="inputbox"
       type="joomcategory"

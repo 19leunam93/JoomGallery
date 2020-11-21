@@ -11,6 +11,8 @@
 
 defined('_JEXEC') or die('Direct Access to this location is not allowed.');
 
+use Joomla\CMS\Helper\TagsHelper;
+
 /**
  * HTML View class for the detail view
  *
@@ -164,6 +166,10 @@ class JoomGalleryViewDetail extends JoomGalleryView
 
     // Get number of images and hits in gallery
     $numbers  = JoomHelper::getNumberOfImgHits();
+
+    // Get image tags
+    $th = new TagsHelper();
+    $image->tags = $th->getItemTags("com_joomgallery.image", $image->id);
 
     // Load modules at position 'top'
     $modules['top'] = JoomHelper::getRenderedModules('top');
@@ -1086,7 +1092,7 @@ class JoomGalleryViewDetail extends JoomGalleryView
             $this->assignRef('comments', $comments);
           }
         }
-        else
+        else 
         {
           $params->set('no_comments_message', JText::_('COM_JOOMGALLERY_DETAIL_COMMENTS_NOT_FOR_UNREG'));
         }

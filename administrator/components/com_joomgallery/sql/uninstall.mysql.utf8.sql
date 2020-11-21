@@ -36,3 +36,8 @@ DROP TABLE `#__joomgallery_orphans`;
 
 DELETE FROM `#__modules_menu` WHERE `moduleid` IN (SELECT id FROM `#__modules` WHERE `position` = 'joom_cpanel');
 DELETE FROM `#__modules` WHERE `position` = 'joom_cpanel';
+
+DELETE FROM `#__ucm_base` WHERE `ucm_type_id` IN (SELECT `type_id` FROM `#__content_types` WHERE `type_alias` IN ('com_joomgallery.image','com_joomgallery.category'));
+DELETE FROM `#__ucm_content` WHERE `core_type_alias` IN ('com_joomgallery.image','com_joomgallery.category');
+DELETE FROM `#__contentitem_tag_map`WHERE `type_alias` IN ('com_joomgallery.image','com_joomgallery.category');
+DELETE FROM `#__content_types` WHERE `type_alias` IN ('com_joomgallery.image','com_joomgallery.category');

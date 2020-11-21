@@ -81,6 +81,10 @@ class JoomGalleryModelCategory extends JoomGalleryModel
       }
     }
 
+    $this->_data->tags = new JHelperTags;
+    $this->_data->tags->getTagIds($this->_id, 'com_joomgallery.category');
+    $this->_data->tags->getItemTags('com_joomgallery.category', $this->_id);
+
     $this->_mainframe->triggerEvent('onContentPrepareData', array(_JOOM_OPTION.'.category', $this->_data));
 
     return $this->_data;
@@ -245,6 +249,12 @@ class JoomGalleryModelCategory extends JoomGalleryModel
         $data['name']  = $title;
         $data['alias']  = $alias;
       //}
+    }
+
+    // Map tags to the item
+    if ((!empty($data['tags']) && $data['tags'][0] != ''))
+    {
+      $row->newTags = $data['tags'];
     }
 
     if(isset($data['password']) && $data['password'])
